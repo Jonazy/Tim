@@ -5,11 +5,11 @@ Tim - This shall require short purpose of the time together, location, time, num
 
 ## Problem
 
-Often time I ended up not planning my weekend/days or on a good day i have all my task for the day cleared. Next I want 
-to do is to have my boyfriend / girlfriend to spend the rest of my time with. On a good day this work in my favour that 
-those i decide to reach out to also are free, then luckily for i have fun and enjoy my time. But if it goes other way 
-that all i reach out to are busy then my mood is ruined and I will end up doing nothing(Well i can pick books or games
-to play. What if i just want real people to talk to?)
+Often time I ended up not planning my weekdays or on a good day i have all my task for the day cleared. Next I want 
+to do is to have my boyfriend / girlfriend to spend the rest of my time with. Sometimes this work in my favour that 
+those i decide to reach out to are free, then luckily for me i have fun and enjoy my time. But if it goes other way 
+that all i reach out to are busy then my mood is ruined, I will feel disappointed and I will end up doing nothing
+(Well i can pick up books to read or games to play. But all I want is human to talk to!)
 What about weekends? Mostly I have no where to go on weekend, i all it my "rest day" and i end up getting bored. At 
 this point reaching out to friend mostly ended up as disappointment. When I reach out to friends, they will either say
 it impromptu or they are busy or engage with something else. In other not to buzz people and request for time which was 
@@ -29,5 +29,7 @@ Interest user shall signify interest by joining, then user are prompt to agreed 
 
 ## Member requirement
 1. Account verification
+
+## Security
 
 ## terminology
