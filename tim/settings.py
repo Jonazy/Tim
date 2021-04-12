@@ -21,8 +21,8 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # See https://docs.djangoproject.com/en/3.1/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = config('SECRET_KEY')
-
+# SECRET_KEY = config('SECRET_KEY')
+SECRET_KEY = 'r-p%te_6!#zkw^%dt%ym(j4#(f6t*0m=ayhxqrz!uh^$=msxlx'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = config('DEBUG', cast=bool)
 
@@ -38,7 +38,40 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+
+    # Third party app/packages
+    'django.contrib.sites',
+    'allauth',
+    'allauth.account',
+    'rest_auth.registration',
+    'rest_framework',
+    'rest_framework.authtoken',
+    'rest_auth',
+
+    'allauth.socialaccount',
+    'allauth.socialaccount.providers.facebook',
+    'users',
+    # 'rest_framework_swagger', no longer supported
+    # 'django.contrib.staticfiles',  # required for serving swagger ui's css/js files
+    'drf_yasg',
+
 ]
+
+SITE_ID = 1
+# AUTH_USER_MODEL = 'users.User'
+AUTHENTICATION_BACKENDS = [
+    # allauth specific authentication methods, such as login by e-mail
+    'allauth.account.auth_backends.AuthenticationBackend',
+]
+
+REST_FRAMEWORK = {
+    # 'DEFAULT_AUTHENTICATION_CLASSES': [
+    #     'rest_framework.authentication.TokenAuthentication',
+    # ],
+    'DEFAULT_AUTHENTICATION_CLASSES': (
+        'rest_framework_simplejwt.authentication.JWTAuthentication',
+    )
+}
 
 MIDDLEWARE = [
     'whitenoise.middleware.WhiteNoiseMiddleware',
@@ -53,7 +86,9 @@ MIDDLEWARE = [
 
 ROOT_URLCONF = 'tim.urls'
 
-STATICFILES_STORAGE = 'whitenoise.django.GzipManifestStaticFilesStorage'
+STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
+
+EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
 
 TEMPLATES = [
     {
@@ -86,7 +121,7 @@ DATABASES = {
         'USER': config('DB_USER'),
         'PASSWORD': config('DB_PASSWORD'),
         'HOST': config('DB_HOST'),                      # Empty for localhost through domain sockets.
-        'PORT': '5433',                      # Set to empty string for default.
+        'PORT': '5432',                      # Set to empty string for default.
 
     }
 }
@@ -134,4 +169,11 @@ STATIC_ROOT = BASE_DIR / 'staticfiles'
 # STATICFILES_DIRS = (
 #     BASE_DIR / 'static'),
 #     )
+
+EMAIL_USE_TLS = True
+EMAIL_HOST = 'smtp.gmail.com'
+EMAIL_PORT = 587
+EMAIL_HOST_USER = 'jonaz.honur@gmail.com'
+EMAIL_HOST_PASSWORD = 'gmaileojsanoj@20'
+
 
