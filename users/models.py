@@ -4,16 +4,17 @@ from django.utils.text import slugify
 from django.utils.translation import ugettext_lazy as _
 from django.db.models.signals import post_save
 from django.dispatch import receiver
+from rest_framework_simplejwt.tokens import RefreshToken
 # Create your models here.
 
 
 class CustomUserManager(BaseUserManager):
-    def create_user(self, email, password, **extra_fields):
+    def create_user(self, email, password, first_name, last_name, **extra_fields):
         if not email:
             raise ValueError(_('Email must be set'))
         user = self.model(email=self.normalize_email(email), **extra_fields)
-        user.extra_fields = first_name
-        user.extra_fields = last_name
+        user.first_name = first_name
+        user.last_name = last_name
         user.set_password(password)
         user.save(using=self._db)
         return user
@@ -31,21 +32,22 @@ class CustomUserManager(BaseUserManager):
         return self.create_user(email, password, **extra_fields)
 
 
-class User(AbstractBaseUser):
+class CustomUser(AbstractBaseUser):
     first_name = models.CharField(max_length=200, blank=False)
     last_name = models.CharField(max_length=200, blank=False)
     email = models.EmailField(max_length=150, unique=True)
-    is_verified = models.BooleanField(default=False)
-    is_staff = models.BooleanField(default=False)
-    is_active = models.BooleanField(default=False)
     slug = models.SlugField(max_length=255, unique=True)
+    is_verified = models.BooleanField(default=False)
+    is_active = models.BooleanField(default=False)
+    is_staff = models.BooleanField(default=False)
+    is_superuser = models.BooleanField(default=False)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
 
     objects = CustomUserManager()
 
     USERNAME_FIELD = 'email'
-    REQUIRED_FIELDS = []
+    REQUIRED_FIELDS = ['first_name', 'last_name']
 
     class Meta:
         ordering = ['-created_at']
@@ -53,10 +55,18 @@ class User(AbstractBaseUser):
     def __str__(self):
         return self.email
 
-    def save(self, *args, **kwargs):
-        if not self.slug:
-            self.slug = slugify(self.first_name + '-' + self.last_name)
-            return super(User, self).save(*args, **kwargs)
+    def tokens(self):
+        refresh = RefreshToken.for_user(self)
+        return {
+            'refresh': str(refresh),
+            'tokens': str(refresh.access_token)
+
+        }
+
+    # def save(self, *args, **kwargs):
+    #     if not self.slug:
+    #         self.slug = slugify(self.first_name + '-' + self.last_name)
+    #         return super().save(*args, **kwargs)
 
     def has_perm(self, perm, obj=None):
         return True
@@ -66,7 +76,7 @@ class User(AbstractBaseUser):
 
 
 class Profile(models.Model):
-    user = models.OneToOneField(User, related_name='profile', primary_key=True, on_delete=models.CASCADE)
+    user = models.OneToOneField(CustomUser, related_name='profile', primary_key=True, on_delete=models.CASCADE)
     image = models.ImageField(upload_to='avatars/', null=True, blank=True)
     date_of_birth = models.DateField(null=True, blank=True)
     bio = models.TextField(max_length=500, blank=True)
@@ -79,13 +89,13 @@ class Profile(models.Model):
         return self.user.get_full_name()
 
 
-@receiver(post_save, sender=User)
+@receiver(post_save, sender=CustomUser)
 def create_user_profile(sender, instance, created, **kwargs):
     if created:
         Profile.objects.create(user=instance)
 
 
-@receiver(post_save, sender=User)
+@receiver(post_save, sender=CustomUser)
 def save_user_profile(sender, instance, **kwargs):
     instance.profile.save()
 
