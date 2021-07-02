@@ -59,7 +59,7 @@ class CustomUser(AbstractBaseUser):
         refresh = RefreshToken.for_user(self)
         return {
             'refresh': str(refresh),
-            'tokens': str(refresh.access_token)
+            'access': str(refresh.access_token)
 
         }
 
