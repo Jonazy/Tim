@@ -51,6 +51,8 @@ class CustomUser(AbstractBaseUser):
 
     class Meta:
         ordering = ['-created_at']
+        verbose_name_plural = 'Users'
+        verbose_name = 'User'
 
     def __str__(self):
         return self.email
@@ -63,10 +65,10 @@ class CustomUser(AbstractBaseUser):
 
         }
 
-    # def save(self, *args, **kwargs):
-    #     if not self.slug:
-    #         self.slug = slugify(self.first_name + '-' + self.last_name)
-    #         return super().save(*args, **kwargs)
+    def save(self, *args, **kwargs):
+        if not self.slug:
+            self.slug = slugify(self.first_name + '-' + self.last_name)
+        return super().save(*args, **kwargs)
 
     def has_perm(self, perm, obj=None):
         return True
