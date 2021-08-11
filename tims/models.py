@@ -9,7 +9,7 @@ class Tim(models.Model):
     co_host = models.CharField(max_length=255, blank=True, null=True)
     title = models.CharField(max_length=50)
     description = models.TextField(max_length=250)
-    like = models.BooleanField(default=False)
+    likes = models.ManyToManyField(to=CustomUser, related_name='tim_likes', blank=True)
     slug = models.SlugField(max_length=255, unique=True)
     image = models.ImageField(upload_to='uploads/tim/images', blank=False, null=False)
     location = models.CharField(max_length=250, blank=False, null=False)
@@ -34,6 +34,7 @@ class Comment(models.Model):
     user = models.ForeignKey(CustomUser, related_name='comment_user', on_delete=models.CASCADE)
     tim = models.ForeignKey(Tim, related_name='tim', on_delete=models.CASCADE)
     comment = models.CharField(max_length=250)
+    likes = models.ManyToManyField(to=CustomUser, related_name='comment_likes', blank=True)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
 
@@ -42,17 +43,3 @@ class Comment(models.Model):
 
     def __str__(self):
         return self.user
-
-
-# class Like(models.Model):
-#     user = models.ForeignKey(CustomUser, related_name='user_like', on_delete=models.CASCADE)
-#     tim = models.ForeignKey(Tim, related_name='tim_like', on_delete=models.CASCADE)
-#     like = models.BooleanField(default=False)
-#     created_at = models.DateTimeField(auto_now_add=True)
-#     updated_at = models.DateTimeField(auto_now=True)
-# 
-#     def __str__(self):
-#         return self.like
-# 
-#     class Meta:
-#         ordering = ['-updated_at']

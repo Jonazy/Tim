@@ -65,6 +65,8 @@ ACCOUNT_EMAIL_REQUIRED = True
 
 SITE_ID = 1
 
+DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
 SWAGGER_SETTINGS = {
     'SECURITY_DEFINITIONS': {
         'bearer': {

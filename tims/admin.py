@@ -12,7 +12,7 @@ admin.site.register(Comment, CommentAdmin)
 
 
 class TimAdmin(admin.ModelAdmin):
-    list_display = ('id', 'host', 'co_host', 'title', 'description', 'like', 'slug', 'image', 'location',
+    list_display = ('id', 'host', 'co_host', 'title', 'description', 'slug', 'image', 'location',
                     'tim_date_time', 'participants', 'created_at', 'updated_at',)
 
 

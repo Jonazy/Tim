@@ -7,7 +7,7 @@ from datetime import datetime
 class TimSerializer(serializers.ModelSerializer):
     class Meta:
         model = Tim
-        fields = ['id', 'host', 'co_host', 'title', 'description', 'slug', 'image', 'location', 'tim_date_time',
+        fields = ['id', 'host', 'co_host', 'title', 'description', 'likes', 'slug', 'image', 'location', 'tim_date_time',
                   'participants', 'created_at', 'updated_at']
         # read_only_fields = ['host']
 
@@ -34,7 +34,7 @@ class CommentSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Comment
-        fields = ['id', 'user', 'tim', 'comment', 'created_at', 'updated_at']
+        fields = ['id', 'user', 'tim', 'comment', 'likes', 'created_at', 'updated_at']
 
 
 class LikeSerializer(serializers.ModelSerializer):

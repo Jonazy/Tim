@@ -85,6 +85,13 @@ class LikeAPIView(APIView):
             serializer.save()
         return Response(serializer.data, status=status.HTTP_201_CREATED)
 
+    def put(self, request):
+        user = request.user
+        serializer = LikeSerializer(data=request.data, partial=True)
+        if serializer.is_valid():
+            serializer.save()
+        return Response(serializer.data, status=status.HTTP_201_CREATED)
+
 
 # class LikeAPIView(APIView):
 #     # permission_classes = (permissions.IsAuthenticated,)
