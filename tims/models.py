@@ -6,7 +6,7 @@ from django.utils.text import slugify
 
 class Tim(models.Model):
     host = models.ForeignKey(CustomUser, related_name='host', on_delete=models.CASCADE)
-    co_host = models.CharField(max_length=255, blank=True, null=True)
+    co_host = models.ManyToManyField(CustomUser, related_name='co_host', blank=True)
     title = models.CharField(max_length=50)
     description = models.TextField(max_length=250)
     likes = models.ManyToManyField(to=CustomUser, related_name='tim_likes', blank=True)
@@ -42,4 +42,4 @@ class Comment(models.Model):
         ordering = ['-created_at']
 
     def __str__(self):
-        return self.user
+        return self.tim.title

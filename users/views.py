@@ -3,7 +3,7 @@ from .models import CustomUser, Profile
 from .serializers import UserSerializer, VerifyEmailSerializer, UserRegistrationSerializer,SetNewPasswordSerializer, \
     LoginSerializer, RequestPasswordResetEmailSerializer
 from rest_framework.views import APIView
-from rest_framework import generics
+from rest_framework import generics, permissions
 from django.http import Http404
 from rest_framework.response import Response
 from rest_framework import status
@@ -25,7 +25,8 @@ from drf_yasg import openapi
 
 
 class UserListAPIView(APIView):
-    # permission_classes = [IsAuthenticated]
+    permission_classes = [IsAuthenticated]
+
     def get(self, request):
         users = CustomUser.objects.all()
         serializer = UserSerializer(users, many=True)
@@ -73,7 +74,7 @@ class VerifyEmailAPIView(APIView):
 
 
 class UserDetailAPIView(APIView):
-    # permission_classes = [IsAuthenticated]
+    permission_classes = [IsAuthenticated]
 
     def get_object(self, pk):
         try:
@@ -88,6 +89,8 @@ class UserDetailAPIView(APIView):
 
 
 class UserUpdateAPIView(APIView):
+    permission_classes = (permissions.IsAuthenticated,)
+
     def get_object(self, pk):
         try:
             return CustomUser.objects.get(pk=pk)
@@ -104,6 +107,8 @@ class UserUpdateAPIView(APIView):
 
 
 class UserDeleteAPIView(APIView):
+    permission_classes = (permissions.IsAuthenticated,)
+
     def get_object(self, pk):
         try:
             return CustomUser.objects.get(pk=pk)
